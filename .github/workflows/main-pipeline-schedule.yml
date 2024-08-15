@@ -1,14 +1,4 @@
-name: 00 - Schedule Main CI / CD Pipeline
-
-on:
-  schedule:
-    # * is a special character in YAML so you have to quote this string, this is always UTC -> d.h. subtract 1h for CET. run saturday
-    - cron:  '28 14 * * *'
-  workflow_dispatch:
-  
-jobs:
-  build:
-    name: Build
+  name: Build
     uses: ./.github/workflows/build.yml
     secrets: inherit #https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idsecretsinherit
 
@@ -32,10 +22,13 @@ jobs:
 
   container-image-scan:
     needs: docker
-    name: Build docker image
+    name: Container Image Scan
     uses: ./.github/workflows/container-image-scan.yml
     secrets: inherit
     with:
       image-tag: ${{ needs.docker.outputs.image-tag }}
+
+
+
 
  
